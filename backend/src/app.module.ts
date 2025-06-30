@@ -5,6 +5,8 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { DocumentsModule } from './documents/documents.module';
+import { IamModule } from './iam/iam.module';
+import { User } from './users/entities/user.entity';
 
 @Module({
   imports: [
@@ -19,11 +21,14 @@ import { DocumentsModule } from './documents/documents.module';
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      entities: [],
+      entities: [User],
       synchronize: true, // to be Removed in Prod
+      logging: true,
+      logger: 'advanced-console',
     }),
     UsersModule,
     DocumentsModule,
+    IamModule,
   ],
   controllers: [AppController],
   providers: [AppService],
